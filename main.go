@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"github.com/gophil/pcap"
@@ -24,6 +25,7 @@ const (
 var (
 	device  = flag.String("i", "", "interface")      //设备名: en0,bond0
 	ofile   = flag.String("d", "", "dump file path") //生成离线文件
+	read    = flag.String("r", "", "read dump file") //生成离线文件
 	snaplen = flag.Int("s", 65535, "snaplen")
 	hexdump = flag.Bool("X", false, "hexdump")
 	help    = flag.Bool("h", false, "help")
@@ -35,7 +37,7 @@ func main() {
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr,
-			"usage: %s \n [ -i interface ] \n [ -t timeout ] \n [ -s snaplen ] \n [ -X hexdump ] \n [ -d file ] \n [ -h show usage] \n [ expression ] \n", os.Args[0])
+			"usage: %s \n [ -i interface ] \n [ -t timeout ] \n [ -s snaplen ] \n [ -X hexdump ] \n [ -d dump file ] \n [ -r read file ] \n [ -h show usage] \n [ expression ] \n", os.Args[0])
 		os.Exit(1)
 	}
 
@@ -47,6 +49,33 @@ func main() {
 
 	if *help {
 		flag.Usage()
+	}
+
+	if *read != "" {
+		src := *read
+		f, err := os.Open(src)
+		if err != nil {
+			fmt.Printf("couldn't open %q: %v\n", src, err)
+			return
+		}
+		defer f.Close()
+		reader, err := pcap.NewReader(bufio.NewReader(f))
+		if err != nil {
+			fmt.Printf("couldn't create reader: %v\n", err)
+			return
+		}
+		for {
+			pkt := reader.Next()
+			if pkt == nil {
+				break
+			}
+			pkt.Decode()
+			fmt.Println(pkt)
+			if *hexdump {
+				Hexdump(pkt)
+			}
+		}
+		return
 	}
 
 	if *device == "" {

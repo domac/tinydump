@@ -26,7 +26,28 @@ sudo ./tinydump -h
  [ -t timeout ]
  [ -s snaplen ]
  [ -X hexdump ]
- [ -d file ]
+ [ -d dump file ]
+ [ -r read file ]
  [ -h show usage]
  [ expression ]
+```
+
+例子:
+
+1.直接使用
+
+```
+$ sudo ./tinydump 
+```
+
+2.host过滤
+
+```
+$ sudo ./tinydump 'src 192.168.1.101 or dst 192.168.1.101'
+```
+
+3.端口过滤
+
+```
+$ sudo ./tinydump 'port 8000'
 ```
