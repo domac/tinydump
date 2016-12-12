@@ -26,7 +26,7 @@ sudo ./tinydump -h
  [ -t timeout ]
  [ -s snaplen ]
  [ -X hexdump ]
- [ -w file ]
+ [ -d file ]
  [ -h show usage]
  [ expression ]
 ```
