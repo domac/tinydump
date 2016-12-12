@@ -35,7 +35,7 @@ func main() {
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr,
-			"usage: %s \n [ -i interface ] \n [ -t timeout ] \n [ -s snaplen ] \n [ -X hexdump ] \n [ -w file ] \n [ -h show usage] \n [ expression ] \n", os.Args[0])
+			"usage: %s \n [ -i interface ] \n [ -t timeout ] \n [ -s snaplen ] \n [ -X hexdump ] \n [ -d file ] \n [ -h show usage] \n [ expression ] \n", os.Args[0])
 		os.Exit(1)
 	}
 
