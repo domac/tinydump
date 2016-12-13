@@ -29,6 +29,7 @@ var (
 	snaplen = flag.Int("s", 65535, "snaplen")
 	hexdump = flag.Bool("X", false, "hexdump")
 	help    = flag.Bool("h", false, "help")
+	count   = flag.String("c", "", "capture count of the dump line")
 	timeout = flag.String("t", "", "timeout")
 )
 
@@ -37,7 +38,7 @@ func main() {
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr,
-			"usage: %s \n [ -i interface ] \n [ -t timeout ] \n [ -s snaplen ] \n [ -X hexdump ] \n [ -d dump file ] \n [ -r read file ] \n [ -h show usage] \n [ expression ] \n", os.Args[0])
+			"usage: %s \n [ -i interface ] \n [ -t timeout ] \n [ -c count ] \n [ -s snaplen ] \n [ -X hexdump ] \n [ -d dump file ] \n [ -r read file ] \n [ -h show usage] \n [ expression ] \n", os.Args[0])
 		os.Exit(1)
 	}
 
@@ -106,6 +107,17 @@ func main() {
 		}
 	}
 
+	cs := *count
+	lineCoint := 1
+	useCount := false
+	if cs != "" {
+		useCount = true
+		lineCoint, err = strconv.Atoi(cs)
+		if err != nil {
+			lineCoint = 1
+		}
+	}
+
 	//生成离线分析文件
 	if *ofile != "" {
 		dumper, oerr := h.DumpOpen(ofile)
@@ -113,7 +125,7 @@ func main() {
 		if oerr != nil {
 			fmt.Fprintln(os.Stderr, "tinydump: couldn't write to file:", oerr)
 		}
-		_, lerr := h.PcapLoop(0, dumper)
+		_, lerr := h.PcapLoop(lineCoint-1, dumper)
 		if lerr != nil {
 			fmt.Fprintln(os.Stderr, "tinydump: loop error:", lerr, h.Geterror())
 		}
@@ -139,6 +151,15 @@ func main() {
 			// 超时, continue(100)
 			continue
 		}
+
+		if useCount {
+			lineCoint = lineCoint - 1
+			if lineCoint < 0 {
+				h.Close()
+				os.Exit(1)
+			}
+		}
+
 		pkt.Decode()
 		fmt.Println(pkt)
 		if *hexdump {

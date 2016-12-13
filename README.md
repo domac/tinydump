@@ -1,7 +1,7 @@
 tinydump
 ========
 
-简单的网络嗅探工具, 类似tcpdump, 采用go编写
+基于golang的嗅探抓包工具, 类似tcpdump
 
 
 ### 使用方式
@@ -24,6 +24,7 @@ sudo ./tinydump -h
 
  [ -i interface ]
  [ -t timeout ]
+ [ -c count ]
  [ -s snaplen ]
  [ -X hexdump ]
  [ -d dump file ]
@@ -32,7 +33,7 @@ sudo ./tinydump -h
  [ expression ]
 ```
 
-例子:
+使用范例:
 
 1.直接使用
 
@@ -50,4 +51,28 @@ $ sudo ./tinydump 'src 192.168.1.101 or dst 192.168.1.101'
 
 ```
 $ sudo ./tinydump 'port 8000'
+```
+
+4.超时捕获 (时间单位为秒)
+
+```
+$ sudo ./tinydump -t 60
+```
+
+5.生成快照文件
+
+```
+$ sudo ./tinydump -d /tmp/test.cap
+```
+
+6.读取快照文件
+
+```
+$ sudo ./tinydump -r /tmp/test.cap
+```
+
+7.捕获指定行数的包
+
+```
+$ sudo ./tinydump -c 10
 ```
