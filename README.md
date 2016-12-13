@@ -37,6 +37,9 @@ sudo ./tinydump -h
  [ expression ]
 ```
 
+![sample](sample.png)
+
+
 使用范例:
 
 1.直接使用
