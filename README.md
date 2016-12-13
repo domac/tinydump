@@ -6,7 +6,11 @@ tinydump
 
 ### 使用方式
 
-#### 构建二进制文件
+#### 直接使用
+
+在release文件夹提供了mac和linux的release版本,可以直接使用
+
+#### 手段构建
 
 ```
 go build
