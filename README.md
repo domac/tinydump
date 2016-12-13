@@ -9,13 +9,10 @@ tinydump
 #### 构建二进制文件
 
 ```
-//mac 版本
-GOOS=darwin  go build
-
-
-//linux 版本
-GOOS=linux  go build
+go build
 ```
+
+生成 `tinydump` 执行文件
 
 #### 命令参数
 
