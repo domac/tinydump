@@ -6,6 +6,9 @@ tinydump
 
 ### 使用方式
 
+> 环境依赖: libpcap  
+安装参考: http://www.blogjava.net/huyi2006/articles/127361.html
+
 #### 直接使用
 
 在 `release` 文件夹提供了mac和linux的release版本,可以直接使用 (需要以sudo权限运行)
