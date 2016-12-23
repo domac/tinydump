@@ -22,6 +22,7 @@ const (
 	IP_UDP  = 17
 )
 
+//命令行参数
 var (
 	device  = flag.String("i", "", "interface")      //设备名: en0,bond0
 	ofile   = flag.String("d", "", "dump file path") //生成离线文件
