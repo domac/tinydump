@@ -171,6 +171,7 @@ func main() {
 
 }
 
+//退出通知
 func signalNotify(h *pcap.Pcap, dumper *pcap.PcapDumper) {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
